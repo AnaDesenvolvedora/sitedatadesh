@@ -126,10 +126,6 @@
             0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.4); }
             50% { transform: scale(1.05); box-shadow: 0 0 0 8px rgba(220, 38, 38, 0); }
         }
-        @keyframes gradientShift {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-        }
 
         .reveal {
             opacity: 0;
@@ -700,7 +696,7 @@
         .service-card p { color: var(--text-light); font-size: 0.9rem; line-height: 1.7; }
 
         /* ═══════════════════════════════════════════════════════════
-           E-BOOKS EM DESTAQUE — CUSTOMIZADO COM BLACK FRIDAY
+           E-BOOKS EM DESTAQUE — CUSTOMIZADO COM BLACK FRIDAY + IMAGENS REAIS
            ═══════════════════════════════════════════════════════════ */
         .bf-banner {
             display: inline-flex;
@@ -799,29 +795,49 @@
             animation: blackFridayPulse 2.5s ease-in-out infinite;
         }
 
-        /* CAPA — fundo claro da página (cover-bg), sem gradiente escuro */
+        /* CAPA COM IMAGEM REAL — fundo claro */
         .ebook-feature-cover {
             aspect-ratio: 4/5;
+            position: relative;
+            overflow: hidden;
+            background: var(--cover-bg);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .ebook-feature-cover::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
+            z-index: 3;
+        }
+        .ebook-feature-cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+            padding: 8px;
+            transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .ebook-feature-card:hover .ebook-feature-cover img {
+            transform: scale(1.03);
+        }
+
+        /* FALLBACK — caso a imagem não carregue */
+        .ebook-fallback {
+            width: 100%;
+            height: 100%;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            padding: 18px;
-            background: var(--cover-bg);
-            border-bottom: 1px solid var(--border);
-            position: relative;
-            overflow: hidden;
+            padding: 20px 18px;
             color: var(--text);
+            background: var(--cover-bg);
         }
-        .ebook-feature-cover::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(180deg, rgba(0,0,0,0) 60%, rgba(15, 118, 110, 0.03) 100%);
-            pointer-events: none;
-        }
-        .ef-cover-top {
-            position: relative;
-            z-index: 2;
+        .ebook-fallback .efb-top {
             display: flex;
             align-items: center;
             gap: 8px;
@@ -831,15 +847,13 @@
             text-transform: uppercase;
             color: var(--text-light);
         }
-        .ef-cover-top img {
+        .ebook-fallback .efb-top img {
             width: 18px; height: 18px;
             border-radius: 5px;
+            padding: 0;
             object-fit: cover;
         }
-        .ef-cover-top i { margin-left: auto; color: var(--primary); font-size: 0.8rem; }
-        .ef-cover-title {
-            position: relative;
-            z-index: 2;
+        .ebook-fallback .efb-title {
             font-size: 1.05rem;
             font-weight: 900;
             line-height: 1.2;
@@ -847,7 +861,7 @@
             color: var(--text);
             margin-top: auto;
         }
-        .ef-cover-title small {
+        .ebook-fallback .efb-sub {
             display: block;
             font-size: 0.65rem;
             font-weight: 600;
@@ -857,23 +871,6 @@
             text-transform: uppercase;
             color: var(--text-light);
         }
-        /* Linha decorativa no topo da capa (identidade visual leve) */
-        .ebook-feature-cover::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
-            z-index: 3;
-        }
-
-        /* Variações sutis de tom no topo das capas — mantém identidade sem escurecer */
-        .ef-cover-1::before { background: linear-gradient(90deg, var(--secondary), var(--accent)); }
-        .ef-cover-2::before { background: linear-gradient(90deg, #ef4444, #991b1b); }
-        .ef-cover-3::before { background: linear-gradient(90deg, var(--primary), var(--secondary)); }
-        .ef-cover-4::before { background: linear-gradient(90deg, var(--accent), #d97706); }
-        .ef-cover-5::before { background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent)); }
-        .ef-cover-6::before { background: linear-gradient(90deg, var(--secondary), var(--primary)); }
 
         .ebook-feature-info {
             padding: 16px 18px;
@@ -1532,7 +1529,7 @@
     </section>
 
     <!-- ═══════════════════════════════════════════════════════════
-         E-BOOKS EM DESTAQUE — CUSTOMIZADO COM BLACK FRIDAY
+         E-BOOKS EM DESTAQUE — BLACK FRIDAY + IMAGENS REAIS
          ═══════════════════════════════════════════════════════════ -->
     <section class="section" id="ebooks-destaque">
         <div class="container">
@@ -1546,19 +1543,14 @@
             </div>
 
             <div class="ebooks-featured-grid">
+
                 <!-- 1. TikTokShop Monetizar — DESTAQUE 17,98 -->
                 <a href="https://pay.kiwify.com.br/3B14Ydj" target="_blank" rel="noopener" class="ebook-feature-card featured reveal-tilt">
-                    <div class="ebook-feature-cover ef-cover-2">
+                    <div class="ebook-feature-cover">
                         <span class="bf-card-badge"><i class="fa-solid fa-fire"></i> Black Friday</span>
-                        <div class="ef-cover-top">
-                            <img src="https://raw.githubusercontent.com/datadeshsolucoes-design/Servicos-digitais/main/logo.jpeg" alt="DataDesh">
-                            <span>DataDesh</span>
-                            <i class="fa-solid fa-sack-dollar"></i>
-                        </div>
-                        <div class="ef-cover-title">
-                            TikTokShop Monetizar
-                            <small>Guia completo</small>
-                        </div>
+                        <img src="https://raw.githubusercontent.com/datadeshsolucoes-design/ebooks/main/capa%20tiktok%20monetizar.png"
+                             alt="Capa TikTokShop Monetizar" loading="lazy"
+                             onerror="this.parentNode.innerHTML='<div class=\'ebook-fallback\'><div class=\'efb-top\'><img src=\'https://raw.githubusercontent.com/datadeshsolucoes-design/Servicos-digitais/main/logo.jpeg\' alt=\'DataDesh\'><span>DataDesh</span></div><div class=\'efb-title\'>TikTokShop Monetizar<span class=\'efb-sub\'>Guia completo</span></div></div>';">
                     </div>
                     <div class="ebook-feature-info">
                         <span class="ebook-feature-cat"><i class="fa-solid fa-star"></i> Destaque</span>
@@ -1573,17 +1565,11 @@
 
                 <!-- 2. Android Ciber Segurança — DESTAQUE 17,98 -->
                 <a href="https://pay.kiwify.com.br/VCMVMt3" target="_blank" rel="noopener" class="ebook-feature-card featured reveal-tilt">
-                    <div class="ebook-feature-cover ef-cover-3">
+                    <div class="ebook-feature-cover">
                         <span class="bf-card-badge"><i class="fa-solid fa-fire"></i> Black Friday</span>
-                        <div class="ef-cover-top">
-                            <img src="https://raw.githubusercontent.com/datadeshsolucoes-design/Servicos-digitais/main/logo.jpeg" alt="DataDesh">
-                            <span>DataDesh</span>
-                            <i class="fa-solid fa-mobile-screen-button"></i>
-                        </div>
-                        <div class="ef-cover-title">
-                            Android Ciber Segurança
-                            <small>Proteger · Prevenir · Reagir</small>
-                        </div>
+                        <img src="https://raw.githubusercontent.com/datadeshsolucoes-design/ebooks/main/Android%20CiberSeguran%C3%A7a.png"
+                             alt="Capa Android Ciber Segurança" loading="lazy"
+                             onerror="this.parentNode.innerHTML='<div class=\'ebook-fallback\'><div class=\'efb-top\'><img src=\'https://raw.githubusercontent.com/datadeshsolucoes-design/Servicos-digitais/main/logo.jpeg\' alt=\'DataDesh\'><span>DataDesh</span></div><div class=\'efb-title\'>Android Ciber Segurança<span class=\'efb-sub\'>Proteger · Prevenir · Reagir</span></div></div>';">
                     </div>
                     <div class="ebook-feature-info">
                         <span class="ebook-feature-cat"><i class="fa-solid fa-star"></i> Destaque</span>
@@ -1598,17 +1584,11 @@
 
                 <!-- 3. Cibersegurança para Famílias — DESTAQUE 14,98 -->
                 <a href="https://pay.kiwify.com.br/nv6yPsM" target="_blank" rel="noopener" class="ebook-feature-card featured reveal-tilt">
-                    <div class="ebook-feature-cover ef-cover-6">
+                    <div class="ebook-feature-cover">
                         <span class="bf-card-badge"><i class="fa-solid fa-fire"></i> Black Friday</span>
-                        <div class="ef-cover-top">
-                            <img src="https://raw.githubusercontent.com/datadeshsolucoes-design/Servicos-digitais/main/logo.jpeg" alt="DataDesh">
-                            <span>DataDesh</span>
-                            <i class="fa-solid fa-users"></i>
-                        </div>
-                        <div class="ef-cover-title">
-                            Cibersegurança para Famílias
-                            <small>Proteção familiar</small>
-                        </div>
+                        <img src="https://raw.githubusercontent.com/datadeshsolucoes-design/ebooks/main/capa%20Ciberseguran%C3%A7a%20para%20familias%20guia%20Pr%C3%A1tico.png"
+                             alt="Capa Cibersegurança para Famílias" loading="lazy"
+                             onerror="this.parentNode.innerHTML='<div class=\'ebook-fallback\'><div class=\'efb-top\'><img src=\'https://raw.githubusercontent.com/datadeshsolucoes-design/Servicos-digitais/main/logo.jpeg\' alt=\'DataDesh\'><span>DataDesh</span></div><div class=\'efb-title\'>Cibersegurança para Famílias<span class=\'efb-sub\'>Proteção familiar</span></div></div>';">
                     </div>
                     <div class="ebook-feature-info">
                         <span class="ebook-feature-cat"><i class="fa-solid fa-star"></i> Destaque</span>
@@ -1623,17 +1603,11 @@
 
                 <!-- 4. IA 2026 — 14,98 -->
                 <a href="https://pay.kiwify.com.br/ytdiroR" target="_blank" rel="noopener" class="ebook-feature-card reveal-tilt">
-                    <div class="ebook-feature-cover ef-cover-1">
+                    <div class="ebook-feature-cover">
                         <span class="bf-card-badge"><i class="fa-solid fa-fire"></i> Black Friday</span>
-                        <div class="ef-cover-top">
-                            <img src="https://raw.githubusercontent.com/datadeshsolucoes-design/Servicos-digitais/main/logo.jpeg" alt="DataDesh">
-                            <span>DataDesh</span>
-                            <i class="fa-solid fa-brain"></i>
-                        </div>
-                        <div class="ef-cover-title">
-                            Como Ganhar Dinheiro com IA em 2026
-                            <small>Guia estratégico</small>
-                        </div>
+                        <img src="https://raw.githubusercontent.com/datadeshsolucoes-design/ebooks/main/Capa%20Como%20ganhar%20Dinheiro%20na%20internet%20em%202026.png"
+                             alt="Capa Como Ganhar Dinheiro com IA em 2026" loading="lazy"
+                             onerror="this.parentNode.innerHTML='<div class=\'ebook-fallback\'><div class=\'efb-top\'><img src=\'https://raw.githubusercontent.com/datadeshsolucoes-design/Servicos-digitais/main/logo.jpeg\' alt=\'DataDesh\'><span>DataDesh</span></div><div class=\'efb-title\'>Como Ganhar Dinheiro com IA em 2026<span class=\'efb-sub\'>Guia estratégico</span></div></div>';">
                     </div>
                     <div class="ebook-feature-info">
                         <span class="ebook-feature-cat"><i class="fa-solid fa-tag"></i> Inteligência Artificial</span>
@@ -1648,17 +1622,11 @@
 
                 <!-- 5. Instagram que Vende — 14,98 -->
                 <a href="https://pay.kiwify.com.br/tyLJdcL" target="_blank" rel="noopener" class="ebook-feature-card reveal-tilt">
-                    <div class="ebook-feature-cover ef-cover-4">
+                    <div class="ebook-feature-cover">
                         <span class="bf-card-badge"><i class="fa-solid fa-fire"></i> Black Friday</span>
-                        <div class="ef-cover-top">
-                            <img src="https://raw.githubusercontent.com/datadeshsolucoes-design/Servicos-digitais/main/logo.jpeg" alt="DataDesh">
-                            <span>DataDesh</span>
-                            <i class="fa-brands fa-instagram"></i>
-                        </div>
-                        <div class="ef-cover-title">
-                            Instagram que Vende
-                            <small>Estratégia & Vendas</small>
-                        </div>
+                        <img src="https://raw.githubusercontent.com/datadeshsolucoes-design/ebooks/main/istagram%20que%20vende.png"
+                             alt="Capa Instagram que Vende" loading="lazy"
+                             onerror="this.parentNode.innerHTML='<div class=\'ebook-fallback\'><div class=\'efb-top\'><img src=\'https://raw.githubusercontent.com/datadeshsolucoes-design/Servicos-digitais/main/logo.jpeg\' alt=\'DataDesh\'><span>DataDesh</span></div><div class=\'efb-title\'>Instagram que Vende<span class=\'efb-sub\'>Estratégia &amp; Vendas</span></div></div>';">
                     </div>
                     <div class="ebook-feature-info">
                         <span class="ebook-feature-cat"><i class="fa-solid fa-tag"></i> Instagram</span>
@@ -1673,17 +1641,11 @@
 
                 <!-- 6. Combo Destaque — 29,98 -->
                 <a href="https://pay.kiwify.com.br/zpi01rP" target="_blank" rel="noopener" class="ebook-feature-card combo reveal-tilt">
-                    <div class="ebook-feature-cover ef-cover-5">
+                    <div class="ebook-feature-cover">
                         <span class="bf-card-badge"><i class="fa-solid fa-fire"></i> Black Friday</span>
-                        <div class="ef-cover-top">
-                            <img src="https://raw.githubusercontent.com/datadeshsolucoes-design/Servicos-digitais/main/logo.jpeg" alt="DataDesh">
-                            <span>DataDesh</span>
-                            <i class="fa-solid fa-gift"></i>
-                        </div>
-                        <div class="ef-cover-title">
-                            Combo Destaque
-                            <small>2 e-books em 1</small>
-                        </div>
+                        <img src="https://raw.githubusercontent.com/datadeshsolucoes-design/ebooks/main/Combo%20Destaque.png"
+                             alt="Capa Combo Destaque" loading="lazy"
+                             onerror="this.parentNode.innerHTML='<div class=\'ebook-fallback\'><div class=\'efb-top\'><img src=\'https://raw.githubusercontent.com/datadeshsolucoes-design/Servicos-digitais/main/logo.jpeg\' alt=\'DataDesh\'><span>DataDesh</span></div><div class=\'efb-title\'>Combo Destaque<span class=\'efb-sub\'>2 e-books em 1</span></div></div>';">
                     </div>
                     <div class="ebook-feature-info">
                         <span class="ebook-feature-cat"><i class="fa-solid fa-gift"></i> Combo</span>
